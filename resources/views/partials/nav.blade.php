@@ -30,14 +30,43 @@
                 </div>
             </form>
             <ul class="navbar-nav my-lg-0 my-2 ms-auto">
-                <li class="nav-item my-auto">
-                    <a class="nav-link text-nowrap {{ Route::currentRouteName() === 'auth.login.show' ? 'active' : '' }}"
-                        aria-current="page" href="{{ route('auth.login.show') }}">Log In</a>
-                </li>
-                <li class="nav-item pe-0 ps-1">
-                    <a class="btn btn-primary-white" aria-current="page" href="{{ route('auth.sign-up.show') }}">Sign
-                        Up</a>
-                </li>
+                @auth
+                    <li class="nav-item dropdown my-auto">
+                        <a class="nav-link d-flex align-items-center p-0" href="javascript:;" data-bs-toggle="dropdown">
+                            <div class="avatar-nav-wrapper me-2">
+                                <img src="{{ filter_var(auth()->user()->picture, FILTER_VALIDATE_URL)
+                                    ? auth()->user()->picture
+                                    : Storage::url(auth()->user()->picture) }}"
+                                    alt="{{ auth()->user()->username }}" class="avatar rounded-circle">
+                            </div>
+                            <span class="fw-bold">{{ auth()->user()->username }}</span>
+                        </a>
+                        <ul class="dropdown-menu mt-2">
+                            <li>
+                                <a href="#" class="dropdown-item">My Profile</a>
+                            </li>
+                            <li>
+                                <form action="{{ route('auth.login.logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @endauth
+                @guest
+
+                    <li class="nav-item my-auto">
+                        <a class="nav-link text-nowrap {{ Route::currentRouteName() === 'auth.login.show' ? 'active' : '' }}"
+                            aria-current="page" href="{{ route('auth.login.show') }}">Log In</a>
+                    </li>
+                    <li class="nav-item pe-0 ps-1">
+                        <a class="btn btn-primary-white" aria-current="page" href="{{ route('auth.sign-up.show') }}">Sign
+                            Up</a>
+                    </li>
+
+                @endguest
+
             </ul>
         </div>
     </div>

@@ -186,6 +186,6 @@ return [
     ])->toArray(),
 
     // ENV MAPPING
-    'avatar_genearator_url' => env('AVATAR_GENERATOR_URL')
+    'avatar_generator_url' => env('AVATAR_GENERATOR_URL'),
 
 ];
