@@ -40,3 +40,11 @@ Route::get('/discussions/create', function () {
 Route::get('/answers/1', function () {
     return view('pages.answers.form');
 })->name('answers.edit');
+
+Route::get('/users/fajar', function () {
+    return view('pages.users.show');
+})->name('users.show');
+
+Route::get('/users/fajar/edit', function () {
+    return view('pages.users.form');
+})->name('users.edit');
