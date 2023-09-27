@@ -11,6 +11,7 @@
                         @else
                             {{ 'All Discussions' }}
                         @endif
+                        <span>{{ isset($withCategory) ? ' About ' . $withCategory->name : '' }}</span>
                     </h2>
                     <div>
                         {{ $discussions->total() . ' ' . Str::plural('Discussion', $discussions->total()) }}
@@ -43,7 +44,8 @@
                                     <p>{!! $discussion->content_preview !!}</p>
                                     <div class="row">
                                         <div class="col me-lg-2 me-1">
-                                            <a href="#">
+                                            <a
+                                                href="{{ route('discussions.categories.show', $discussion->category->slug) }}">
                                                 <span
                                                     class="badge rounded-pill text-bg-light">{{ $discussion->category->name }}</span>
                                             </a>
@@ -84,7 +86,7 @@
                         <h3>All Categories</h3>
                         <div>
                             @foreach ($categories as $category)
-                                <a href="">
+                                <a href="{{ route('discussions.categories.show', $category->slug) }}">
                                     <span class="badge rounded-pill text-bg-light">{{ $category->name }}</span>
                                 </a>
                             @endforeach
