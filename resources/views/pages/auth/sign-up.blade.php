@@ -53,7 +53,7 @@
                         </form>
                     </div>
                     <div class="text-center">
-                        Already have an account? <a href="#"><u>Log in</u></a>
+                        Already have an account? <a href="{{ route('auth.login.show') }}"><u>Log in</u></a>
                     </div>
                 </div>
             </div>

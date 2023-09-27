@@ -10,10 +10,12 @@
         <div class="navbar-collapse collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-lg-3 mx-0">
                 <li class="nav-item d-block d-lg-none d-xl-block">
-                    <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
+                    <a class="nav-link {{ Route::currentRouteName() === 'home' ? 'active' : '' }}" aria-current="page"
+                        href="{{ route('home') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Discussions</a>
+                    <a class="nav-link {{ Route::currentRouteName() === 'discussions.index' ? 'active' : '' }}"
+                        aria-current="page" href="{{ route('discussions.index') }}">Discussions</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-nowrap" aria-current="page" href="#">About Us</a>
@@ -29,10 +31,12 @@
             </form>
             <ul class="navbar-nav my-lg-0 my-2 ms-auto">
                 <li class="nav-item my-auto">
-                    <a class="nav-link text-nowrap" aria-current="page" href="#">Log In</a>
+                    <a class="nav-link text-nowrap {{ Route::currentRouteName() === 'auth.login.show' ? 'active' : '' }}"
+                        aria-current="page" href="{{ route('auth.login.show') }}">Log In</a>
                 </li>
                 <li class="nav-item pe-0 ps-1">
-                    <a class="btn btn-primary-white" aria-current="page" href="#">Sign Up</a>
+                    <a class="btn btn-primary-white" aria-current="page" href="{{ route('auth.sign-up.show') }}">Sign
+                        Up</a>
                 </li>
             </ul>
         </div>
