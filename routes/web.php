@@ -32,9 +32,9 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-Route::get('/discussions', function () {
-    return view('pages.discussions.index');
-})->name('discussions.index');
+Route::namespace('App\Http\Controllers')->group(function () {
+    Route::resource('discussions', DiscussionController::class)->only(['index', 'show']);
+});
 
 Route::get('/discussions/lorem', function () {
     return view('pages.discussions.show');
