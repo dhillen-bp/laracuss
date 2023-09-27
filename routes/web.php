@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DiscussionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,12 @@ Route::namespace('App\Http\Controllers\Auth')->group(function () {
     Route::post('/sign-up', 'SignUpController@signUp')->name('auth.sign-up.sign-up');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::namespace('App\Http\Controllers')->group(function () {
+        Route::resource('discussions', DiscussionController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+    });
+});
+
 Route::get('/discussions', function () {
     return view('pages.discussions.index');
 })->name('discussions.index');
@@ -32,10 +39,6 @@ Route::get('/discussions', function () {
 Route::get('/discussions/lorem', function () {
     return view('pages.discussions.show');
 })->name('discussions.show');
-
-Route::get('/discussions/create', function () {
-    return view('pages.discussions.form');
-})->name('discussions.create');
 
 Route::get('/answers/1', function () {
     return view('pages.answers.form');
