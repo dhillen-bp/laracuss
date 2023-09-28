@@ -12,7 +12,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-12 col-lg-8 mb-lg-0 mb-5">
                     <div class="card card-discussions mb-5">
@@ -22,23 +21,25 @@
                                     action="{{ isset($discussion) ? route('discussions.update', $discussion->slug) : route('discussions.store') }}"
                                     method="POST">
                                     @csrf
+
                                     @isset($discussion)
                                         @method('PUT')
                                     @endisset
+
                                     <div class="mb-3">
                                         <label for="title" class="form-label">Title</label>
-                                        <input type="text" name="title"
-                                            class="form-control @error('title') is-invalid @enderror" id="title"
-                                            name="title" value="{{ $discussion->title ?? old('title') }}" autofocus>
+                                        <input type="text" class="form-control @error('title') is-invalid @enderror"
+                                            id="title" name="title" value="{{ $discussion->title ?? old('title') }}"
+                                            autofocus>
                                         @error('title')
-                                            <div class="inalid-feedback">{{ $message }}</div>
+                                            <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="mb-3">
                                         <label for="category_slug" class="form-label">Category</label>
                                         <select class="form-select @error('category_slug') is-invalid @enderror"
                                             name="category_slug" id="category_slug">
-                                            <option value="">--- Choose One ---</option>
+                                            <option value="">-- Choose One --</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->slug }}"
                                                     @if (($discussion->category->slug ?? old('category_slug')) === $category->slug) {{ 'selected' }} @endif>
@@ -47,19 +48,20 @@
                                             @endforeach
                                         </select>
                                         @error('category_slug')
-                                            <div class="inalid-feedback">{{ $message }}</div>
+                                            <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="mb-3">
-                                        <label for="content" class="form-label">Question</label>
-                                        <textarea class="form-control @error('content') is-invalid @enderror" id="content" name="content">{{ $discussion->content ?? old('content') }}</textarea>
+                                        <label for="content"
+                                            class="form-label @error('content') is-invalid @enderror">Question</label>
+                                        <textarea class="form-control" id="content" name="content">{{ $discussion->content ?? old('content') }}</textarea>
                                         @error('content')
-                                            <div class="inalid-feedback">{{ $message }}</div>
+                                            <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div>
-                                        <button type="submit" class="btn btn-primary me-4">Submit</button>
-                                        <a href="{{ route('discussions.show', $discussion->slug) }}">Cancel</a>
+                                        <button class="btn btn-primary me-4" type="submit">Submit</button>
+                                        <a href="{{ route('discussions.index') }}">Cancel</a>
                                     </div>
                                 </form>
                             </div>

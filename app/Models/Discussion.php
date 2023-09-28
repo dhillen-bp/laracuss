@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Conner\Likeable\Likeable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Discussion extends Model
 {
-    use HasFactory, Likeable;
+    use HasFactory, Likeable, SoftDeletes;
 
     protected $fillable = [
         'user_id',

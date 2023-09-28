@@ -153,8 +153,27 @@ class DiscussionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $slug)
     {
-        //
+        $discussion = Discussion::with('category')->where('slug', $slug)->first();
+
+        if (!$discussion) {
+            return abort(404);
+        }
+
+        $isOwnedByUser = $discussion->user_id == auth()->id();
+
+        if (!$isOwnedByUser) {
+            return abort(404);
+        }
+
+        $delete = $discussion->delete();
+
+        if ($delete) {
+            session()->flash('notif.success', 'Discussion deleted successfully');
+            return redirect(route('discussions.index'));
+        }
+
+        return abort(500);
     }
 }
