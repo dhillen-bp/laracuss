@@ -23,6 +23,11 @@
                     <div>
                         <input type="text" id="current-url" class="d-none" value="{{ request()->url() }}">
                         <a href="javascript:;" id="share-profile" class="btn btn-primary me-4">Share</a>
+                        @auth()
+                            @if ($user->id === auth()->id())
+                                <a href="{{ route('users.edit', $user->username) }}">Edit Profile</a>
+                            @endif
+                        @endauth
                     </div>
                 </div>
                 <div class="col-12 col-lg-8">

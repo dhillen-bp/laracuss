@@ -29,15 +29,17 @@ Route::namespace('App\Http\Controllers\Auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::namespace('App\Http\Controllers')->group(function () {
         Route::resource('discussions', DiscussionController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
-
         Route::post('discussions/{discussion}/like', 'LikeController@discussionLike')->name('discussions.like.like');
         Route::post('discussions/{discussion}/unlike', 'LikeController@discussionUnlike')->name('discussions.like.unlike');
-
         Route::post('discussions/{discussion}/answer', 'AnswerController@store')->name('discussions.answer.store');
 
         Route::resource('answers', AnswerController::class)->only('edit', 'update', 'destroy');
         Route::post('answers/{answer}/like', 'LikeController@answerLike')->name('answers.like.like');
         Route::post('answers/{answer}/unlike', 'LikeController@answerUnlike')->name('answers.like.unlike');
+
+        Route::namespace('My')->group(function () {
+            Route::resource('users', UserController::class)->only(['edit', 'update']);
+        });
     });
 });
 
@@ -50,9 +52,3 @@ Route::namespace('App\Http\Controllers')->group(function () {
 Route::namespace('App\Http\Controllers\My')->group(function () {
     Route::resource('users', UserController::class)->only(['show']);
 });
-
-
-
-Route::get('/users/fajar/edit', function () {
-    return view('pages.users.form');
-})->name('users.edit');
