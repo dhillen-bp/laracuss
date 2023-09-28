@@ -47,9 +47,11 @@ Route::namespace('App\Http\Controllers')->group(function () {
     Route::get('discussions/categories/{category}', 'CategoryController@show')->name('discussions.categories.show');
 });
 
-Route::get('/users/fajar', function () {
-    return view('pages.users.show');
-})->name('users.show');
+Route::namespace('App\Http\Controllers\My')->group(function () {
+    Route::resource('users', UserController::class)->only(['show']);
+});
+
+
 
 Route::get('/users/fajar/edit', function () {
     return view('pages.users.form');
