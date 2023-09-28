@@ -41,6 +41,17 @@
                                             <input type="text" value="{{ route('discussions.show', $discussion->slug) }}"
                                                 id="current-url" class="d-none">
                                         </span>
+
+                                        @if ($discussion->user_id === auth()->id())
+                                            <span class="color-gray me-2">
+                                                <a
+                                                    href="{{ route('discussions.edit', $discussion->slug) }}"><small>Edit</small></a>
+                                            </span>
+
+                                            <span class="color-gray me-2">
+                                                <a href="javascript:;"><small>Delete</small></a>
+                                            </span>
+                                        @endif
                                     </div>
                                     <div class="col-5 col-lg-3 d-flex">
                                         <a href="#"
