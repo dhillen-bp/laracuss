@@ -18,7 +18,7 @@
                         aria-current="page" href="{{ route('discussions.index') }}">Discussions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-nowrap" aria-current="page" href="#">About Us</a>
+                    <a class="nav-link text-nowrap" aria-current="page" href="{{ route('home') }}#about-us">About Us</a>
                 </li>
             </ul>
             <form class="d-flex w-100 my-lg-0 my-2 me-4" role="search" action="{{ route('discussions.index') }}"
