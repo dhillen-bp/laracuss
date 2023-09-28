@@ -72,87 +72,82 @@
                                                 <a href="#"
                                                     class="fw-bold d-flex align-items-start text-break mb-1">{{ $discussion->user->username }}</a>
                                             </span>
-                                            <span class="color-gray">{{ $discussion->created_at->diffForHumans() }}</span>
+                                            <span
+                                                class="color-gray"><small>{{ $discussion->created_at->diffForHumans() }}</small></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <h3 class="mb-5">2 Answers</h3>
+                    @php
+                        $answerCount = $discussion->answers->count();
+                    @endphp
+                    <h3 class="mb-5">{{ $answerCount . ' ' . Str::plural('Answer', $answerCount) }}</h3>
                     <div class="mb-5">
-                        <div class="card card-discussions">
-                            <div class="row">
-                                <div class="col-1 d-flex flex-column justify-content-start align-items-center">
-                                    <a href="#">
-                                        <img src="{{ url('assets/images/like.png') }}" alt="Like"
-                                            class="like-icon mb-1">
-                                    </a>
-                                    <span class="fs-4 color-gray mb-1">12</span>
-                                </div>
-                                <div class="col-11">
-                                    <p>lorem ipsum dolor sit amet contecstur lorem ipsum dolor sit amet contecsturlorem
-                                        ipsum dolor sit amet contecsturlorem ipsum dolor sit amet contecstur</p>
-                                    <div class="row align-items-end justify-content-end">
-                                        <div class="col-5 col-lg-3 d-flex">
-                                            <a href="#"
-                                                class="card-discussions-show-avatar-wrapper rounded-circle me-1 flex-shrink-0 overflow-hidden">
-                                                <img src="{{ url('assets/images/avatar.png') }}" alt="Avatar"
-                                                    class="avatar">
-                                            </a>
-                                            <div class="fs-12px lh-1">
-                                                <span class="text-primary">
-                                                    <a href="#"
-                                                        class="fw-bold d-flex align-items-start text-break mb-1">dadang
-                                                        z</a>
-                                                </span>
-                                                <span class="color-gray">4 hours ago</span>
+                        @forelse($discussionAnswers as $answer)
+                            <div class="card card-discussions">
+                                <div class="row">
+                                    <div class="col-1 d-flex flex-column justify-content-start align-items-center">
+                                        <a href="#">
+                                            <img src="{{ url('assets/images/like.png') }}" alt="Like"
+                                                class="like-icon mb-1">
+                                        </a>
+                                        <span class="fs-4 color-gray mb-1">12</span>
+                                    </div>
+                                    <div class="col-11">
+                                        <div>{!! $answer->answer !!}</div>
+                                        <div class="row align-items-end justify-content-end">
+                                            <div class="col-5 col-lg-3 d-flex">
+                                                <a href="#"
+                                                    class="card-discussions-show-avatar-wrapper rounded-circle me-1 flex-shrink-0 overflow-hidden">
+                                                    <img src="{{ filter_var($answer->user->picture, FILTER_VALIDATE_URL) ? $answer->user->picture : Storage::url($answer->user->picture) }}"
+                                                        alt="{{ $answer->user->username }}" class="avatar">
+                                                </a>
+                                                <div class="fs-12px lh-1">
+                                                    <span
+                                                        class="{{ $answer->user->username === $discussion->user->username ? 'text-primary' : '' }}">
+                                                        <a href="#"
+                                                            class="fw-bold d-flex align-items-start text-break mb-1"><small>{{ $answer->user->username }}</small></a>
+                                                    </span>
+                                                    <span
+                                                        class="color-gray"><small>{{ $answer->created_at->diffForHumans() }}</small></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card card-discussions">
-                            <div class="row">
-                                <div class="col-1 d-flex flex-column justify-content-start align-items-center">
-                                    <a href="#">
-                                        <img src="{{ url('assets/images/like.png') }}" alt="Like"
-                                            class="like-icon mb-1">
-                                    </a>
-                                    <span class="fs-4 color-gray mb-1">12</span>
-                                </div>
-                                <div class="col-11">
-                                    <p>lorem ipsum dolor sit amet contecstur lorem ipsum dolor sit amet contecsturlorem
-                                        ipsum dolor sit amet contecsturlorem ipsum dolor sit amet contecstur</p>
-                                    <div class="row align-items-end justify-content-end">
-                                        <div class="col-5 col-lg-3 d-flex">
-                                            <a href="#"
-                                                class="card-discussions-show-avatar-wrapper rounded-circle me-1 flex-shrink-0 overflow-hidden">
+                        @empty
+                            <div class="card card-discussions">
+                                Currently no answer yet
+                            </div>
+                        @endforelse
 
-                                                <img src="{{ url('assets/images/avatar.png') }}" alt="Avatar"
-                                                    class="avatar">
-                                            </a>
-                                            <div class="fs-12px lh-1">
-                                                <span class="text-primary">
-                                                    <a href="#"
-                                                        class="fw-bold d-flex align-items-start text-break mb-1">dadang
-                                                        z</a>
-                                                </span>
-                                                <span class="color-gray">4 hours ago</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                        {{ $discussionAnswers->links() }}
+
+                    </div>
+                    @auth()
+                        <h3 class="mb-5">Your Answer</h3>
+                        <div class="card card-discussions">
+                            <form action="{{ route('discussions.answer.store', $discussion->slug) }}" method="POST">
+                                @csrf
+                                <div class="mb-3">
+                                    <textarea name="answer" id="answer">{{ old('answer') }}</textarea>
                                 </div>
-                            </div>
+                                <div>
+                                    <button type="submit" class="btn btn-primary me-4">Submit</button>
+                                </div>
+                            </form>
                         </div>
-                    </div>
-                    <div class="fw-bold text-center">
-                        Please <a href="{{ route('auth.login.show') }}" class="text-primary">sign in</a> or <a
-                            href="{{ route('auth.sign-up.show') }}" class="text-primary">create an account</a> to
-                        participate in this discussion.
-                    </div>
+                    @endauth
+                    @guest()
+                        <div class="fw-bold text-center">
+                            Please <a href="{{ route('auth.login.show') }}" class="text-primary">sign in</a> or <a
+                                href="{{ route('auth.sign-up.show') }}" class="text-primary">create an account</a> to
+                            participate in this discussion.
+                        </div>
+                    @endguest
                 </div>
 
                 <div class="col-12 col-lg-4">
@@ -187,6 +182,22 @@
                 var alertContainer = alert.find('.container');
                 alertContainer.first().text('Link to this discussion copied successfully');
             });
+
+            $('#answer').summernote({
+                placeholder: 'Your Solution',
+                tabSize: 2,
+                height: 220,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link']],
+                    ['view', ['codeview', 'help']]
+                ]
+            });
+            $('span.note-icon-caret').remove();
 
             $('#discussion-like').click(function() {
                 // dapatkan data apakah discussion ini sudah pernah dilike oleh user

@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\Discussion\StoreRequest;
 use App\Http\Requests\Discussion\UpdateRequest;
+use App\Models\Answer;
 
 class DiscussionController extends Controller
 {
@@ -78,14 +79,17 @@ class DiscussionController extends Controller
             return abort(404);
         }
 
+        $discussionAnswers = Answer::where('discussion_id', $discussion->id)->orderBy('created_at', 'desc')->paginate(5);
+
         $notLikedImage = url('assets/images/like.png');
         $likedImage = url('assets/images/liked.png');
 
         return response()->view('pages.discussions.show', [
-            'discussion'    => $discussion,
-            'categories'    => Category::all(),
-            'likedImage'    => $likedImage,
-            'notLikedImage' => $notLikedImage,
+            'discussion'        => $discussion,
+            'categories'        => Category::all(),
+            'likedImage'        => $likedImage,
+            'notLikedImage'     => $notLikedImage,
+            'discussionAnswers'  => $discussionAnswers
         ]);
     }
 
