@@ -108,6 +108,15 @@
                                                             <small>Edit</small>
                                                         </a>
                                                     </span>
+
+                                                    <form action="{{ route('answers.destroy', $answer->id) }}"
+                                                        method="POST" class="d-inline-block lh-1">
+                                                        @csrf
+                                                        @method('DELETE')
+
+                                                        <button type="submit"
+                                                            class="color-gray btn btn-link text-decoration-none lh-1 delete-answer p-0"><small>Delete</small></button>
+                                                    </form>
                                                 @endif
                                             </div>
                                             <div class="col-5 col-lg-3 d-flex">
@@ -280,6 +289,12 @@
                             $this.data('liked', !isLiked);
                         }
                     });
+            });
+
+            $('.delete-answer').click(function(event) {
+                if (!confirm('Delete this answer')) {
+                    event.preventDefault();
+                }
             });
         });
     </script>

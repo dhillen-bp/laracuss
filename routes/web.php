@@ -47,10 +47,6 @@ Route::namespace('App\Http\Controllers')->group(function () {
     Route::get('discussions/categories/{category}', 'CategoryController@show')->name('discussions.categories.show');
 });
 
-// Route::get('/answers/1', function () {
-//     return view('pages.answers.form');
-// })->name('answers.edit');
-
 Route::get('/users/fajar', function () {
     return view('pages.users.show');
 })->name('users.show');

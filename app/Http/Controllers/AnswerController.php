@@ -86,6 +86,24 @@ class AnswerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $answer = Answer::find($id);
+
+        if (!$answer) {
+            return abort(404);
+        }
+
+        $isOwnedByUser = $answer->user_id == auth()->id();
+
+        if (!$isOwnedByUser) {
+            return abort(404);
+        }
+
+        $delete = $answer->delete();
+
+        if ($delete) {
+            session()->flash('notif.success', 'Answer deleted succesfully');
+            return redirect()->route('discussions.show', $answer->discussion->slug);
+        }
+        return abort(500);
     }
 }
