@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
 
         Route::post('discussions/{discussion}/answer', 'AnswerController@store')->name('discussions.answer.store');
 
+        Route::resource('answers', AnswerController::class)->only('edit', 'update', 'destroy');
         Route::post('answers/{answer}/like', 'LikeController@answerLike')->name('answers.like.like');
         Route::post('answers/{answer}/unlike', 'LikeController@answerUnlike')->name('answers.like.unlike');
     });
@@ -46,9 +47,9 @@ Route::namespace('App\Http\Controllers')->group(function () {
     Route::get('discussions/categories/{category}', 'CategoryController@show')->name('discussions.categories.show');
 });
 
-Route::get('/answers/1', function () {
-    return view('pages.answers.form');
-})->name('answers.edit');
+// Route::get('/answers/1', function () {
+//     return view('pages.answers.form');
+// })->name('answers.edit');
 
 Route::get('/users/fajar', function () {
     return view('pages.users.show');

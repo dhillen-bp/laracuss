@@ -18,14 +18,16 @@
                     <div class="card card-discussions mb-5">
                         <div class="row">
                             <div class="col-12">
-                                <form action="" method="POST">
+                                <form action="{{ route('answers.update', $answer->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
                                     <div class="mb-3">
                                         <label for="answer" class="form-label">Answers</label>
-                                        <textarea class="form-control" id="answer" name="answer"></textarea>
+                                        <textarea class="form-control" id="answer" name="answer">{{ $answer->answer ?? old('answer') }}</textarea>
                                     </div>
                                     <div>
                                         <button type="submit" class="btn btn-primary me-4">Submit</button>
-                                        <a href="#">Cancel</a>
+                                        <a href="{{ route('discussions.show', $answer->discussion->slug) }}">Cancel</a>
                                     </div>
                                 </form>
                             </div>
