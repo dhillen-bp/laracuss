@@ -7,10 +7,11 @@ use App\Models\Discussion;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Conner\Likeable\Likeable;
 
 class Answer extends Model
 {
-    use HasFactory;
+    use HasFactory, Likeable;
 
     protected $fillable = [
         'user_id',
