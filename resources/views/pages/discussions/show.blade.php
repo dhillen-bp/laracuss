@@ -37,7 +37,7 @@
                                 <div class="row align-item-start justify-content-between">
                                     <div class="col">
                                         <span class="color-gray me-2">
-                                            <a href="javascript:;" id="share-discussion"><small>Share</small></a>
+                                            <a href="javascript:;" id="share-page"><small>Share</small></a>
                                             <input type="text" value="{{ route('discussions.show', $discussion->slug) }}"
                                                 id="current-url" class="d-none">
                                         </span>
@@ -188,22 +188,10 @@
 @endsection
 
 @section('after-script')
+    @include('partials.copy-link-current-page')
+
     <script>
         $(document).ready(function() {
-            $('#share-discussion').click(function() {
-                var copyText = $('#current-url');
-
-                copyText[0].select();
-                copyText[0].setSelectionRange(0, 99999);
-                navigator.clipboard.writeText(copyText.val());
-
-                var alert = $('#alert');
-                alert.removeClass('d-none');
-
-                var alertContainer = alert.find('.container');
-                alertContainer.first().text('Link to this discussion copied successfully');
-            });
-
             $('#answer').summernote({
                 placeholder: 'Your Solution',
                 tabSize: 2,
